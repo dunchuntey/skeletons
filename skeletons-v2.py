@@ -186,10 +186,7 @@ def form_skeleton(
             while True:
                 skeleton = unearth_skeleton(length, ceiling)
                 for i in range(3, len(skeleton)):
-                    a = skeleton[i - 3]
-                    b = skeleton[i - 2]
-                    c = skeleton[i - 1]
-                    d = skeleton[i]
+                    a, b, c, d = chromatic_slop_check(skeleton, i)
                     if b == a + 1 and c == b + 1 and d == c + 1:
                         break
                 else:
@@ -214,7 +211,7 @@ def form_skeleton(
                 # Potentially optional avoidance of severe chromatic slop at start and end of skeleton.
                 if skeleton[-3:-1] == [7,8] and skeleton[-1] == 9 and skeleton[1] == 1:
                     continue
-                # Ensuring no skeletons over 2 in length have major 6th as second note.
+                # Ensuring no skeletons over 2 in length have 9 (maj 6) as second note.
                 elif len(skeleton) > 2 and skeleton[1] == 9:
                     continue
                 # Ensuring valid skeletons of 2 in length.
@@ -236,11 +233,9 @@ def form_skeleton(
                 # Ensuring valid skeletons of 4 and over in length.
                 elif len(skeleton) == 4 and start_fret == 0 and skeleton[-1] < 5:
                     continue
+
                 for i in range(3, len(skeleton)):
-                    a = skeleton[i - 3]
-                    b = skeleton[i - 2]
-                    c = skeleton[i - 1]
-                    d = skeleton[i]
+                    a, b, c, d = chromatic_slop_check(skeleton, i)
                     if b == a + 1 and c == b + 1 and d == c + 1:
                         break
                 else:
@@ -554,10 +549,7 @@ def form_skeleton(
                         continue
 
                 for i in range(3, len(skeleton)):
-                    a = skeleton[i - 3]
-                    b = skeleton[i - 2]
-                    c = skeleton[i - 1]
-                    d = skeleton[i]
+                    a, b, c, d = chromatic_slop_check(skeleton, i)
                     if b == a + 1 and c == b + 1 and d == c + 1:
                         break
                 else:
@@ -568,6 +560,18 @@ def form_skeleton(
             sys.exit(
                 "Error. String grouping: 1 to 3 or 'r' for random (no argument defaults to random)."
             )
+
+
+def chromatic_slop_check(skeleton, i):
+    """
+    Checks to ensure no more than three notes a semi-tone apart can occur in the skeleton set.
+    e.g. [0, 1, 2] == thumbs up; [0, 1, 2, 3] == thumbs down.
+    """
+    a = skeleton[i - 3]
+    b = skeleton[i - 2]
+    c = skeleton[i - 1]
+    d = skeleton[i]
+    return a,b,c,d
 
 
 def set_start_fret(fret: int | str) -> int:
