@@ -153,7 +153,7 @@ def form_skeleton(
         ValueError: If string_grouping == 1 and length not between 2 and 4.
         ValueError: If string_grouping == 2 and length not between 2 and 8.
         ValueError: If string_grouping == 3 and length not between 3 and 12.
-        ValueError: If string_grouping not "r" or between 1 and 3.
+        ValueError: If string_grouping not "r" or not between 1 and 3.
 
     Returns:
         skeleton [list]: Curated skeleton ready for fretboard formatting.
@@ -1390,16 +1390,16 @@ def skeleton_to_fretboard(
                 f"| {"--".join(map(str, cipher[5]))}\n"
 
                 f"{"b":<{pad}}"
-                f"| {"--".join(map(str, cipher[2]))}\n"
+                f"| {"--".join(map(str, cipher[3]))}\n"
 
                 f"{"g":<{pad}}"
-                f"| {"--".join(map(str, cipher[4]))}\n"
-
-                f"{"D":<{pad}}"
                 f"| {"--".join(map(str, cipher[1]))}\n"
 
+                f"{"D":<{pad}}"
+                f"| {"--".join(map(str, cipher[4]))}\n"
+
                 f"{"A":<{pad}}"
-                f"| {"--".join(map(str, cipher[3]))}\n"
+                f"| {"--".join(map(str, cipher[2]))}\n"
 
                 f"{"E":<{pad}}"
                 f"| {"--".join(map(str, cipher[0]))}"
