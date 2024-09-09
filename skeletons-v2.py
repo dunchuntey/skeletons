@@ -3,6 +3,11 @@ import argparse
 import sys
 
 
+#TODO Also get rid of any reference to guitar, the tab_print stuff, everything. Strip it back to what it is fundamentally.
+# i.e. creating disjunct pitch sets based on an initial set, with a ceiling, applied to notes at certin intervals apart (E, A, D...)
+# Find duplicate code and move to methods?
+
+
 notes = {
     0: ["C"],
     1: ["C#", "Db"],
