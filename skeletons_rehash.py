@@ -153,18 +153,18 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
-    args = parse_args()
+def build_skeleton(args):
+    """Resolve settings and return (start_fret, grouping, skeleton, frets, skel_notes)."""
     grouping, length = choose_settings(
         int_or_random(args.grouping, "Grouping"),
         int_or_random(args.length, "Length"),
     )
+
     start_fret = int_or_random(args.fret, "Fret")
     if start_fret is None:
         start_fret = random.randint(0, MAX_FRET)
     elif start_fret > MAX_FRET:
         raise SystemExit(f"Starting fret too high: the maximum is {MAX_FRET}.")
-
 
     skeleton = form_skeleton(length, grouping, start_fret)
     frets = place_skeleton(skeleton, grouping, start_fret)
@@ -174,7 +174,10 @@ def main():
         for open_string, string_frets in zip(BASE_NOTES, frets)
         for fret in string_frets
     ]
+    return start_fret, grouping, skeleton, frets, skel_notes
 
+
+def print_skeleton(start_fret, grouping, skeleton, frets, skel_notes):
     print(
         f"\n{tab_print(frets)}\n"
         f"\nSkeleton:\n{', '.join(map(str, skeleton))}"
@@ -182,6 +185,10 @@ def main():
         f"\n\nStarting fret: {start_fret}"
         f"\nString grouping: {grouping}"
     )
+
+
+def main():
+    print_skeleton(*build_skeleton(parse_args()))
 
 
 if __name__ == "__main__":
